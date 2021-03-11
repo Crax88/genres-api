@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const debug = require("debug")("app:startup");
+const genres = require("./routes/genres");
 
 const app = express();
 
@@ -14,10 +15,9 @@ if (process.env.NODE_ENV === "development") {
   debug("Morgan enabled...");
 }
 
-app.get("/", (req, res) => {
-  res.send({ message: "Server is working" });
-});
+app.use("/api/genres", genres);
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
