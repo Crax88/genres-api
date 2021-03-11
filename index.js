@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const config = require("config");
+const debug = require("debug")("app:startup");
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.static("public"));
 app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
+  debug("Morgan enabled...");
 }
 
 app.get("/", (req, res) => {
