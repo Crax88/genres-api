@@ -1,0 +1,15 @@
+{
+  "name": "genres-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Crax88/genres-api.git",
+  "author": "Nikita Trafilkin <ntrafilkin88@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
