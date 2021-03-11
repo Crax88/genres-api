@@ -3,7 +3,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const debug = require("debug")("app:startup");
 const genres = require("./routes/genres");
+const connectDb = require("./db/connect");
 
+connectDb();
 const app = express();
 
 app.use(express.json());
