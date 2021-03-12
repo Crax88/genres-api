@@ -22,4 +22,4 @@ function validateGenre(genre) {
 
 const Genre = model("Genre", genreSchema);
 
-module.exports = { Genre, validate: validateGenre };
+module.exports = { Genre, validate: validateGenre, genreSchema };
