@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/")
-  .get(async (req, res) => {
+  .get(auth, async (req, res) => {
     const users = await User.find().select("-password").sort({ name: 1 });
     res.send(users);
   })
