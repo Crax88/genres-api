@@ -20,8 +20,10 @@ router
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
-
-    res.send(_.pick(user, ["_id", "name", "email"]));
+    const token = await user.createAuthToken();
+    res
+      .header("x-auth-token", token)
+      .send(_.pick(user, ["_id", "name", "email"]));
   });
 
 module.exports = router;

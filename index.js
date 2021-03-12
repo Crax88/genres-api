@@ -5,6 +5,7 @@ const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 Joi.validatePassword = require("joi-password-complexity");
 const debug = require("debug")("app:startup");
+const config = require("config");
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
 const movies = require("./routes/movies");
@@ -13,6 +14,10 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const connectDb = require("./db/connect");
 
+if (!config.get("jwtPrivateKey")) {
+  console.error("JWT Private Key is not defined");
+  process.exit(1);
+}
 connectDb();
 const app = express();
 
