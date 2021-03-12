@@ -33,7 +33,6 @@ router
   .get(async (req, res) => {
     const genre = await Genre.findById(req.params.id);
     if (!genre) return res.status(404).send("Genre not found");
-    console.log(genre);
     return res.send(genre);
   })
   .put(async (req, res) => {
