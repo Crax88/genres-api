@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const { Genre, validate } = require("../models/genre");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const router = Router();
 
@@ -9,7 +11,7 @@ router
     const genres = await Genre.find().sort({ name: 1 });
     res.send(genres);
   })
-  .post(async (req, res) => {
+  .post([auth, admin], async (req, res) => {
     const { error } = await validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     const genre = new Genre({ name: req.body.name });
@@ -24,7 +26,7 @@ router
     if (!genre) return res.status(404).send("Genre not found");
     return res.send(genre);
   })
-  .put(async (req, res) => {
+  .put([auth, admin], async (req, res) => {
     const { error } = await validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     const genre = await Genre.findByIdAndUpdate(
@@ -35,7 +37,7 @@ router
     if (!genre) return res.status(404).send("Genre not found");
     res.send(genre);
   })
-  .delete(async (req, res) => {
+  .delete([auth, admin], async (req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     if (!genre) return res.status(404).send("Genre not found");
     res.send(genre);
