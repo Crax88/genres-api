@@ -6,3 +6,4 @@ config/production.json
 config/default.json
 config/custom-environment-variables.json
 !config/example.json
+*.log

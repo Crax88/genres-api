@@ -10,6 +10,7 @@ router
   .route("/")
   .get(
     asyncHandler(async (req, res, next) => {
+      throw new Error("Could not fetch genres");
       const genres = await Genre.find().sort({ name: 1 });
       res.send(genres);
     })
