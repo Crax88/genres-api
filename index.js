@@ -1,6 +1,8 @@
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const debug = require("debug")("app:startup");
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
