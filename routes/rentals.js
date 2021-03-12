@@ -57,17 +57,23 @@ router
   .put(async (req, res) => {
     const { error } = await validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    let rental = await Rental.findById(req.params.id);
-    if (!rental) return res.status(400).send("Rental not found");
     const customer = await Customer.findById(req.body.customerId);
     if (!customer) return res.status(400).send("Invalid customer");
     const movie = await Movie.findById(req.body.movieId);
     if (!movie) return res.status(400).send("Movie not found");
+    const rental = await Rental.findById(req.params.id);
+    if (!rental) return res.status(400).send("Invalid rental");
     rental.dateReturned = Date.now();
-    await rental.save();
-    movie.numberInStock++;
-    await movie.save();
-    res.send(rental);
+    try {
+      new Fawn.Task()
+        .save("rentals", rental)
+        .update("movies", { _id: movie._id }, { $inc: { numberInStock: 1 } })
+        .run();
+
+      res.send(rental);
+    } catch (err) {
+      return res.status(500).send("Something failed");
+    }
   })
   .delete(async (req, res) => {
     const rental = await Rental.findByIdAndRemove(req.params.id);
