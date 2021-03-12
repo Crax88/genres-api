@@ -2,6 +2,7 @@ const { Router } = require("express");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { User, validate } = require("../models/user");
+const auth = require("../middleware/auth");
 
 const router = Router();
 
