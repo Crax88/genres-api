@@ -63,10 +63,13 @@ router
     if (!movie) return res.status(400).send("Movie not found");
     const rental = await Rental.findById(req.params.id);
     if (!rental) return res.status(400).send("Invalid rental");
-    rental.dateReturned = Date.now();
     try {
       new Fawn.Task()
-        .save("rentals", rental)
+        .update(
+          "rentals",
+          { _id: rental._id },
+          { $set: { dateReturned: Date.now() } }
+        )
         .update("movies", { _id: movie._id }, { $inc: { numberInStock: 1 } })
         .run();
 
