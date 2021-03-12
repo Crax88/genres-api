@@ -5,6 +5,7 @@ const debug = require("debug")("app:startup");
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
 const movies = require("./routes/movies");
+const rentals = require("./routes/rentals");
 const connectDb = require("./db/connect");
 
 connectDb();
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
 app.use("/api/movies", movies);
+app.use("/api/rentals", rentals);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
