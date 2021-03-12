@@ -9,7 +9,7 @@ const userSchema = new Schema({
     maxlength: 50,
   },
   email: {
-    type: Stirng,
+    type: String,
     required: true,
     unique: true,
     minlength: 5,
@@ -28,8 +28,8 @@ const User = model("User", userSchema);
 function validateUser(user) {
   const schema = Joi.object({
     name: Joi.string().min(5).max(50).required(),
-    email: Join.string().min(5).max(255).required().email(),
-    password: Joi.string().min(5).max(255).required(),
+    email: Joi.string().min(5).max(255).required().email(),
+    password: Joi.validatePassword(),
   });
   return new Promise((resolve) => {
     const result = schema.validate(user);
