@@ -3,12 +3,13 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const { User, validate } = require("../models/user");
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const router = Router();
 
 router
   .route("/")
-  .get(auth, async (req, res) => {
+  .get([auth, admin], async (req, res) => {
     const users = await User.find().select("-password").sort({ name: 1 });
     res.send(users);
   })

@@ -23,13 +23,20 @@ const userSchema = new Schema({
     minlength: 5,
     maxlength: 1024,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.methods.createAuthToken = function () {
   const that = this;
   return new Promise((resolve, reject) => {
     try {
-      const token = jwt.sign({ _id: that._id }, config.get("jwtPrivateKey"));
+      const token = jwt.sign(
+        { _id: that._id, isAdmin: that.isAdmin },
+        config.get("jwtPrivateKey")
+      );
       resolve(token);
     } catch (error) {
       reject();

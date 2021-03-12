@@ -5,13 +5,14 @@ const { Rental, validate } = require("../models/rental");
 const { Customer } = require("../models/customer");
 const { Movie } = require("../models/movie");
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 Fawn.init(mongoose);
 const router = Router();
 
 router
   .route("/")
-  .get(async (req, res) => {
+  .get([auth, admin], async (req, res) => {
     const rentals = await Rental.find().sort({ dateOut: -1 });
     res.send(rentals);
   })
@@ -55,7 +56,7 @@ router
     if (!rental) return res.status(400).send("Rental not found");
     res.send(rental);
   })
-  .put(auth, async (req, res) => {
+  .put([auth, admin], async (req, res) => {
     const { error } = await validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     const customer = await Customer.findById(req.body.customerId);
@@ -79,7 +80,7 @@ router
       return res.status(500).send("Something failed");
     }
   })
-  .delete(auth, async (req, res) => {
+  .delete([auth, admin], async (req, res) => {
     const rental = await Rental.findByIdAndRemove(req.params.id);
     if (!rental) return res.status(404).send("Rental not found");
     res.send(rental);
