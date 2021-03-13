@@ -31,6 +31,13 @@ const logger = createLogger({
       },
     }),
   ],
+  exceptionHandlers: [
+    new transports.File({
+      level: "error",
+      filename: "uncaughtExceptions.log",
+      format: combine(timestamp(), prettyPrint()),
+    }),
+  ],
 });
 
 module.exports = logger;
