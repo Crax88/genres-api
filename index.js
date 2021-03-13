@@ -14,9 +14,17 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const error = require("./middleware/error");
 const connectDb = require("./db/connect");
+const logger = require("./utils/logger");
+
+process.on("uncaughtException", async (ex) => {
+  logger.error(ex.message, ex);
+  process.exit(1);
+});
+process.on("unhandledRejection", async (ex) => {
+  throw ex;
+});
 
 if (!config.get("jwtPrivateKey")) {
-  console.error("JWT Private Key is not defined");
   process.exit(1);
 }
 connectDb();
