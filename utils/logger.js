@@ -2,7 +2,7 @@ require("winston-mongodb");
 const config = require("config");
 const _ = require("lodash");
 const { createLogger, format, transports } = require("winston");
-const { timestamp, combine, prettyPrint } = format;
+const { timestamp, combine, prettyPrint, colorize } = format;
 
 const insertMetaForWinstonMongo = format((logEntry) => {
   logEntry.metadata = _.chain(logEntry)
@@ -29,6 +29,10 @@ const logger = createLogger({
         useNewUrlParser: true,
         useUnifiedTopology: true,
       },
+    }),
+    new transports.Console({
+      level: "info",
+      format: combine(colorize(), prettyPrint()),
     }),
   ],
   exceptionHandlers: [

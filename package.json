@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production vidly_jwtPrivateKey=mySuperSecureKey node index.js",
+    "start": "node index.js",
     "dev": "cross-env NODE_ENV=development vidly_jwtPrivateKey=mySuperSecureKey nodemon index.js"
   },
   "dependencies": {
